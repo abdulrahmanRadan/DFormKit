@@ -1,0 +1,31 @@
+# بيئة افتراضية
+venv/
+*.venv/
+
+# ملفات تخص بايثون
+*.pyc
+*.pyo
+__pycache__/
+
+# ملفات محرر النصوص (مثل VS Code)
+.vscode/
+
+# ملفات إعدادات النظام
+.DS_Store
+Thumbs.db
+
+# ملفات Django
+*.log
+*.sqlite3
+db.sqlite3
+/static/
+media/
+
+# ملفات التثبيت الخاصة بـ pip
+pip-wheel-metadata/
+*.egg-info/
+dist/
+build/
+
+# ملفات الحزم التي يتم إنشاؤها
+*.egg
