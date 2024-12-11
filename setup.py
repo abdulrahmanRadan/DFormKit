@@ -14,7 +14,7 @@ setup(
         'Framework :: Django',
         'License :: OSI Approved :: MIT License',
     ],
-    author="abdulrahman",
+    author="abdulrahmanRadan",
     author_email="aboda123li123@gmail.com",
     description="this is django dynamic forms ",
     long_description=open('README.md').read(),  

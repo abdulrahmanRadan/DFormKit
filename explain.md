@@ -16,6 +16,9 @@ django-dynamic-forms/
 │   │   └── dynamic_form.html   # القالب الافتراضي لعرض النماذج
 │   └── tests/                  # مجلد لاختبارات الوحدة الخاصة بالأداة
 │       └── test_generate_form.py
+│   └── management/
+│       └── commands/
+│           └── generate_dynamic_form.py
 ├── docs/                       # مستندات المكتبة (اختياري)
 │   └── index.rst               # ملف الوثائق الأساسي
 ├── examples/                   # أمثلة لاستخدام المكتبة
@@ -107,7 +110,7 @@ python manage.py startapp dynamic_form_test
    **إذا كنت تقوم بتطوير المكتبة محليًا (من المجلد المحلي)**:
 
    ```bash
-   pip install -e /path/to/django-dynamic-forms
+   pip install -e F:\projects2025\django-dynamic-forms
    ```
 
    ستتمكن من الآن من استيراد مكتبتك واستخدامها داخل تطبيق Django الخاص بك.
