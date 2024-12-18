@@ -1,6 +1,6 @@
 from django import forms
 
-def generate_dynamic_form(model):
+def generate_DformKit(model):
     """
     Generates a Django ModelForm dynamically based on the model's fields.
     """

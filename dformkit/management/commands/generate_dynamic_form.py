@@ -1,8 +1,8 @@
 import os
 from django.core.management.base import BaseCommand
 from django.apps import apps
-from django_dynamic_forms.generate_form import generate_dynamic_form  # دالة توليد النماذج
-from django_dynamic_forms.template_creator import TemplateCreator  # استيراد الكلاس الجديد
+from dformkit.generate_form import generate_DformKit  # دالة توليد النماذج
+from dformkit.template_creator import TemplateCreator  # استيراد الكلاس الجديد
 
 class Command(BaseCommand):
     help = 'Generates a dynamic form and optionally creates a view template.'
@@ -22,7 +22,7 @@ class Command(BaseCommand):
             # استيراد النموذج بشكل ديناميكي
             model = apps.get_model(app_label, model_name)
             
-            dynamic_form = generate_dynamic_form(model)
+            dynamic_form = generate_DformKit(model)
             form_code = f'from django import forms\n\nclass {model.__name__}Form(forms.ModelForm):\n'
             form_code += '    class Meta:\n'
             form_code += f'        model = {model.__name__}\n'

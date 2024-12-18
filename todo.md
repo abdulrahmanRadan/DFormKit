@@ -12,3 +12,7 @@
 - [ ] Customize the form validation for `name = forms.CharField(required=True)` to make it optional unless `--v` or `--validation` is specified.
 - [ ] Change the generation of HTML form interfaces from `--v` or `--view` to `--html` or `--h`.
 - [ ] Ensure the interfaces are automatically styled using Tailwind CSS.
+
+---
+
+- [ x ] Change the name of project

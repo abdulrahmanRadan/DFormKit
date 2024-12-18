@@ -1,6 +1,6 @@
-# Django Dynamic Forms
+# DFormKit
 
-**Django Dynamic Forms** is a Python library that helps developers generate **dynamic forms** using **Django ModelForm**, with support for **validation** and **Tailwind CSS** styling.
+**DFormKit** is a Python library that helps developers generate **dynamic forms** using **Django ModelForm**, with support for **validation** and **Tailwind CSS** styling.
 
 ## Features
 
@@ -15,7 +15,7 @@
 To install the library, run the following command:
 
 ```bash
-pip install django-dynamic-forms
+pip install dformkit
 ```
 
 ## Usage
@@ -41,7 +41,7 @@ python manage.py [generate_dynamic_form_name] --model=Product --validation
 To add **Tailwind CSS** styling to the generated form, use the `--tailwind` option:
 
 ```bash
-python manage.py generate_dynamic_form --model=Product --tailwind
+python manage.py dformkit --model=Product --tailwind
 ```
 
 ### 4. Generate the form with validation and Tailwind CSS
@@ -57,7 +57,7 @@ python manage.py [generate_dynamic_form_name] --model=Product --validation --tai
 You can also generate **HTML pages** for the forms with the `--html` option:
 
 ```bash
-python manage.py generate_dynamic_form --model=Product --validation --tailwind --html
+python manage.py dformkit --model=Product --validation --tailwind --html
 ```
 
 ### 6. Testing the library

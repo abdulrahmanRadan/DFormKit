@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="django-dynamic-forms",  # اسم المكتبة
+    name="dformkit",  # اسم المكتبة
     version="0.1.0",  
     packages=find_packages(),  # العثور على جميع الحزم (داخل المكتبة)
     include_package_data=True,
