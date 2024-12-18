@@ -132,7 +132,7 @@ INSTALLED_APPS = [
 - **اكتب اختبارات الوحدة** الخاصة بالأداة في مجلد `dynamic_form_test` باستخدام **`pytest`** أو **`unittest`**.
 - **استخدم الأوامر** من سطر الأوامر مثل:
   ```bash
-  python manage.py generate_dynamic_form --model=Product -vt
+  python manage.py generate_dynamic_form --model=Products --app=dynamicforms
   ```
   لتوليد النماذج و**التحقق من الصحة** و **التنسيق باستخدام Tailwind CSS** أثناء اختبار الأداة في بيئة Django.
 

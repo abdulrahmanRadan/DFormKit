@@ -1,49 +1,55 @@
+import os
 from django.core.management.base import BaseCommand
 from django.apps import apps
-from pathlib import Path
+from django_dynamic_forms.generate_form import generate_dynamic_form  # دالة توليد النماذج
+from django_dynamic_forms.template_creator import TemplateCreator  # استيراد الكلاس الجديد
 
 class Command(BaseCommand):
-    help = "Generates a dynamic form for a given model."
+    help = 'Generates a dynamic form and optionally creates a view template.'
 
     def add_arguments(self, parser):
-        parser.add_argument('--model', type=str, help='Specify the model for which to generate the form.')
-        parser.add_argument('--app', type=str, help='App name where the model exists.')
+        parser.add_argument('--model', type=str, help='Model name to generate the form from', required=True)
+        parser.add_argument('--app', type=str, help='App name where the model exists', required=True)
+        parser.add_argument('--view', action='store_true', help='Create a view template for the form')  # اختياري
+        parser.add_argument('--v', action='store_true', help='Create a view template for the form')  # اختياري
 
     def handle(self, *args, **kwargs):
         model_name = kwargs['model']
         app_label = kwargs['app']
-
-        if not model_name or not app_label:
-            self.stderr.write(self.style.ERROR("Please provide both --model and --app arguments."))
-            return
-
+        create_view = kwargs.get('view', False)  # افتراض عدم إنشاء الواجهة إذا لم يتم تحديد الخيار
+        create_view_short = kwargs.get('v', False)
         try:
-            # Retrieve the model dynamically
+            # استيراد النموذج بشكل ديناميكي
             model = apps.get_model(app_label, model_name)
-        except LookupError as e:
-            self.stderr.write(self.style.ERROR(f"Model {model_name} not found in app {app_label}."))
-            return
+            
+            dynamic_form = generate_dynamic_form(model)
+            form_code = f'from django import forms\n\nclass {model.__name__}Form(forms.ModelForm):\n'
+            form_code += '    class Meta:\n'
+            form_code += f'        model = {model.__name__}\n'
+            form_code += '        fields = [\n'
+            form_code += ''.join([f'            "{field_name}",\n' for field_name in dynamic_form.base_fields.keys()])
+            form_code += '        ]\n'
+            for field_name, field in dynamic_form.base_fields.items():
+                form_code += f'    {field_name} = forms.{field.__class__.__name__}(required={field.required})\n'
 
-        # Generate form code
-        form_name = f"{model_name}Form"
-        fields = [field.name for field in model._meta.fields if field.editable]
-        form_code = f"\n\nclass {form_name}(forms.ModelForm):\n"
-        form_code += f"    class Meta:\n        model = {model_name}\n        fields = {fields}\n"
+            # حفظ النموذج المُولد في forms.py
+            forms_path = os.path.join(app_label, 'forms.py')
+            if os.path.exists(forms_path):
+                with open(forms_path, 'r') as f:
+                    existing_content = f.read()
+                with open(forms_path, 'w') as f:
+                    f.write(existing_content + '\n\n' + form_code)
+            else:
+                with open(forms_path, 'w') as f:
+                    f.write(form_code)
 
-        for field in fields:
-            form_code += f"    {field} = forms.CharField(required=True)\n"
+            self.stdout.write(self.style.SUCCESS(f'Successfully generated form for {model_name}'))
 
-        # Append form to forms.py without overwriting the existing content
-        forms_path = Path(f"{app_label}/forms.py")
-        if not forms_path.exists():
-            forms_path.touch()  # Create the file if it doesn't exist
-            forms_path.write_text("from django import forms\n")  # Add the header
+            # إنشاء قالب HTML إذا تم استخدام --view
+            if create_view or create_view_short:
+                template_creator = TemplateCreator(app_label, model_name)
+                result = template_creator.create_template()
+                self.stdout.write(self.style.SUCCESS(result))
 
-        with forms_path.open("r+") as f:
-            existing_content = f.read()
-            if form_name in existing_content:
-                self.stdout.write(self.style.WARNING(f"Form {form_name} already exists. Skipping generation."))
-                return
-            f.write(form_code)
-
-        self.stdout.write(self.style.SUCCESS(f"Successfully added form for {model_name} to {forms_path}."))
+        except Exception as e:
+            self.stderr.write(self.style.ERROR(f"Error: {str(e)}"))
