@@ -5,30 +5,37 @@ def generate_DformKit(model):
     Generates a Django ModelForm dynamically based on the model's fields.
     """
     fields = model._meta.fields  # جلب جميع الحقول من الـ Model
-    form_fields = {}
+    included_fields = [field.name for field in fields if field.editable]
 
-    # قائمة الحقول التي سيتم تضمينها في النموذج
-    included_fields = []
+    # إنشاء Meta class لنموذج النموذج 
+    form_meta = type('Meta', (), {'model': model, 'fields': included_fields})
 
-    for field in fields:
-        field_name = field.name
-        field_type = field.get_internal_type()
 
-        # تجاهل الحقول غير القابلة للتعديل مثل `created_at` أو الحقول التي هي `auto_now`
-        if field.editable:
-            included_fields.append(field_name)
+    # إنشاء نموذج ModelForm ديناميكي
+    return type(f'{model.__name__}Form', (forms.ModelForm,), {'Meta': form_meta})
 
-            # تخصيص نوع الحقل بناءً على نوعه في الـ Model
-            if field_type == 'CharField':
-                form_fields[field_name] = forms.CharField(max_length=field.max_length, required=field.blank)
-            elif field_type == 'IntegerField':
-                form_fields[field_name] = forms.IntegerField(required=field.blank)
-            elif field_type == 'DecimalField':
-                form_fields[field_name] = forms.DecimalField(max_digits=field.max_digits, decimal_places=field.decimal_places, required=field.blank)
-            elif field_type == 'TextField':
-                form_fields[field_name] = forms.CharField(widget=forms.Textarea, required=field.blank)
-            elif field_type == 'DateTimeField':
-                form_fields[field_name] = forms.DateTimeField(required=field.blank)
+def generate_DformKit(model):
+    """
+    Generates a Django ModelForm dynamically based on the model's fields.
+    """
+    fields = model._meta.fields  # جلب جميع الحقول من الـ Model
+    included_fields = [field.name for field in fields if field.editable]
 
-    # توليد نموذج باستخدام ModelForm مع الحقول المعدلة
-    return type(f'{model.__name__}Form', (forms.ModelForm,), {'Meta': type('Meta', (), {'model': model, 'fields': included_fields})})
+    # إنشاء Meta class لنموذج النموذج
+    form_meta = type('Meta', (), {'model': model, 'fields': included_fields})
+    
+    # إنشاء نموذج ModelForm ديناميكي
+    return type(f'{model.__name__}Form', (forms.ModelForm,), {'Meta': form_meta})
+
+
+def generate_form_code(model, dynamic_form):
+    """
+    Generates the code for the form class based on the dynamic form.
+    """
+    form_code = f'class {model.__name__}Form(forms.ModelForm):\n'
+    form_code += '    class Meta:\n'
+    form_code += f'        model = {model.__name__}\n'
+    form_code += '        fields = [\n'
+    form_code += ''.join([f'            "{field_name}",\n' for field_name in dynamic_form.base_fields.keys()])
+    form_code += '        ]\n'
+    return form_code
