@@ -34,6 +34,7 @@ class Command(BaseCommand):
             # التحقق من وجود forms.py وإضافة الاستيراد إذا لزم الأمر
             forms_path = os.path.join(app_label, 'forms.py')
             FormsFileChecker.ensure_forms_import(forms_path)
+            FormsFileChecker.ensure_models_import(forms_path, model_name)
 
             # كتابة كود النموذج في forms.py
             with open(forms_path, 'a') as f:
