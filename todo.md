@@ -1,8 +1,7 @@
 #### Django Form Dynamic Todo:
 
 - [x] Check if the forms file contains `from django import forms` and not write it again.
-- [ ] Check if the forms file contains `from .models import {model_name}` and not write it again.
-- [ ] Check if the forms file contains `from .models import [any value]`, and if not, add the line with the model name replacing `[any value]`.
+- [x] Check if the forms file contains `from .models import [any value]`, and if not, add the line with the model name replacing `[any value]`.
 - [ ] If the file already contains that line but imports a different model, append the current model name to the existing line.
 - [ ] Check whether the forms file contains a form class for the same model, show a warning, and ask in the terminal whether to perform a replacement or not.
 - [ ] Make the `--view` or `--v` argument in the terminal consistent.
