@@ -104,13 +104,13 @@ python manage.py startapp dynamic_form_test
    **إذا كنت تستخدم PyPI**:
 
    ```bash
-   pip install django-dynamic-forms
+   pip install dformkit
    ```
 
    **إذا كنت تقوم بتطوير المكتبة محليًا (من المجلد المحلي)**:
 
    ```bash
-   pip install -e F:\projects2025\django-dynamic-forms
+   pip install -e F:\projects2025\ddformkit
    ```
 
    ستتمكن من الآن من استيراد مكتبتك واستخدامها داخل تطبيق Django الخاص بك.
@@ -132,7 +132,7 @@ INSTALLED_APPS = [
 - **اكتب اختبارات الوحدة** الخاصة بالأداة في مجلد `dynamic_form_test` باستخدام **`pytest`** أو **`unittest`**.
 - **استخدم الأوامر** من سطر الأوامر مثل:
   ```bash
-  python manage.py generate_dynamic_form --model=Products --app=dynamicforms
+  python manage.py dformkit --model=Products --app=dynamicforms
   ```
   لتوليد النماذج و**التحقق من الصحة** و **التنسيق باستخدام Tailwind CSS** أثناء اختبار الأداة في بيئة Django.
 

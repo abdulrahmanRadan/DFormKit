@@ -15,4 +15,4 @@
 
 ---
 
-- [ x ] Change the name of project
+- [x] Change the name of project

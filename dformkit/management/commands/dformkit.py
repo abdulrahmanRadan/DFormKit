@@ -6,7 +6,7 @@ from dformkit.template_creator import TemplateCreator  # استيراد الكل
 
 class Command(BaseCommand):
     help = 'Generates a dynamic form and optionally creates a view template.'
-
+    
     def add_arguments(self, parser):
         parser.add_argument('--model', type=str, help='Model name to generate the form from', required=True)
         parser.add_argument('--app', type=str, help='App name where the model exists', required=True)

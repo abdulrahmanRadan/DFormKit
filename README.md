@@ -25,7 +25,7 @@ pip install dformkit
 To automatically generate a **ModelForm** from the `Product` model, use the following command:
 
 ```bash
-python manage.py [generate_dynamic_form_name] --model=Product
+python manage.py dformkit --model=Product
 ```
 
 ### 2. Add validation
@@ -33,7 +33,7 @@ python manage.py [generate_dynamic_form_name] --model=Product
 To include **validation** for the form based on the model's constraints, use the `--validation` option:
 
 ```bash
-python manage.py [generate_dynamic_form_name] --model=Product --validation
+python manage.py dformkit --model=Product --validation
 ```
 
 ### 3. Add Tailwind CSS styling
@@ -49,7 +49,7 @@ python manage.py dformkit --model=Product --tailwind
 You can combine all options in one command:
 
 ```bash
-python manage.py [generate_dynamic_form_name] --model=Product --validation --tailwind
+python manage.py [dformkit] --model=Product --validation --tailwind
 ```
 
 ### 5. Generate HTML pages
