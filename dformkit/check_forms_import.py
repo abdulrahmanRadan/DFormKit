@@ -88,3 +88,81 @@ class FormsFileChecker:
                 print(f"Ensured 'from .models import {model_name}' in the file.")
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
+
+    @staticmethod
+    def has_form_class(file_path, model_name):
+        """
+        Check if a form class for the given model already exists in the file.
+
+        Args:
+            file_path (str): The path to forms file to check.
+            model_name (str): The name of the model to search for.
+        
+        Returns:
+            bool: True if the form class exists, False otherwise.
+        """
+        form_class_name = f"class {model_name}Form"
+        try:
+            with open(file_path, 'r', encoding='utf-8') as file:
+                content = file.read()
+                return form_class_name in content
+        except FileNotFoundError:
+            return False
+        except Exception as e:
+            print(f"An unecpected error occurred: {e}")
+            return False
+    
+    @staticmethod
+    def warn_and_overwrite(file_path, model_name, form_code):
+        """
+        Warn the user if the form class exists and prompt for overwrite.
+
+        Args:
+            file_path (str): The path to the forms file.
+            model_name (str): The name of the model.
+
+        Returns:
+            bool: True if the user chooses to overwrite, False otherwise.
+        """
+        if FormsFileChecker.has_form_class(file_path, model_name):
+            response = input(f"Warning: A form class for '{model_name}' already exists. Overwrite? (y/n): ")
+            if response.lower() == 'y':
+                FormsFileChecker.overwrite_form_class(file_path, model_name, form_code)
+                print(f"Overwritten the form class for '{model_name}'.")
+                return True
+            else:
+                print(f"Skipped generating form for '{model_name}'.")
+                return False
+        return True
+
+    @staticmethod
+    def overwrite_form_class(file_path, model_name, form_code):
+        """
+        Overwrite the existing form class for the given model in the file.
+
+        Args:
+            file_path (str): The path to the forms file.
+            model_name (str): The name of the model.
+            form_code (str): The new code for the form class.
+        """
+        form_class_name = f"class {model_name}Form"
+        try:
+            with open(file_path, 'r+', encoding='utf-8') as file:
+                lines = file.readlines()
+                file.seek(0)
+                inside_form_class = False
+
+                for line in lines:
+                    if form_class_name in line:
+                        inside_form_class = True
+                        file.write(form_code + '\n')  # استبدال الكود الحالي
+                    elif inside_form_class and line.startswith("class "):
+                        inside_form_class = False  # نهاية الكلاس
+                        file.write(line)
+                    elif not inside_form_class:
+                        file.write(line)
+
+                if not inside_form_class:
+                    file.write('\n' + form_code + '\n')  # إضافة الكلاس إذا لم يكن موجودًا
+        except Exception as e:
+            print(f"An unexpected error occurred: {e}")

@@ -35,10 +35,14 @@ class Command(BaseCommand):
             forms_path = os.path.join(app_label, 'forms.py')
             FormsFileChecker.ensure_forms_import(forms_path)
             FormsFileChecker.ensure_models_import(forms_path, model_name)
-
-            # كتابة كود النموذج في forms.py
-            with open(forms_path, 'a') as f:
-                f.write('\n\n' + form_code)
+            
+            if FormsFileChecker.has_form_class(forms_path, model_name):
+                if not FormsFileChecker.warn_and_overwrite(forms_path, model_name, form_code):
+                    self.stdout.write(self.style.WARNING(f"Skipped generating form for {model_name}."))
+                    return
+            else:
+                with open(forms_path, 'a') as f:
+                    f.write('\n\n' + form_code)
 
             self.stdout.write(self.style.SUCCESS(f'Successfully generated form for {model_name}'))
 
