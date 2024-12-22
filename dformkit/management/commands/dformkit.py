@@ -11,15 +11,15 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--model', type=str, help='Model name to generate the form from', required=True)
         parser.add_argument('--app', type=str, help='App name where the model exists', required=True)
-        parser.add_argument('--view', action='store_true', help='Create a view template for the form')
-        parser.add_argument('--v', action='store_true', help='Create a view template for the form')  # اختياري
+        parser.add_argument('-page', action='store_true', help='Create a view template for the form')
+        parser.add_argument('-p', action='store_true', help='Create a view template for the form')  # اختياري
 
 
     def handle(self, *args, **kwargs):
         model_name = kwargs['model']
         app_label = kwargs['app']
-        create_view = kwargs.get('view', False)
-        create_view_short = kwargs.get('v', False)
+        create_view = kwargs.get('page', False)
+        create_view_short = kwargs.get('p', False)
 
         try:
             # تحميل الموديل
