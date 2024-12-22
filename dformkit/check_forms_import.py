@@ -155,14 +155,13 @@ class FormsFileChecker:
                 for line in lines:
                     if form_class_name in line:
                         inside_form_class = True
-                        file.write(form_code + '\n')  # استبدال الكود الحالي
+                        continue
                     elif inside_form_class and line.startswith("class "):
                         inside_form_class = False  # نهاية الكلاس
                         file.write(line)
                     elif not inside_form_class:
                         file.write(line)
 
-                if not inside_form_class:
-                    file.write('\n' + form_code + '\n')  # إضافة الكلاس إذا لم يكن موجودًا
+                file.write('\n' + form_code + '\n')  # إضافة الكلاس إذا لم يكن موجودًا
         except Exception as e:
             print(f"An unexpected error occurred: {e}")
