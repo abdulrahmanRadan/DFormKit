@@ -9,8 +9,7 @@
 
 #### New Tasks:
 
-- [ ] Customize the form validation for `name = forms.CharField(required=True)` to make it optional unless `--v` or `--validation` is specified.
-- [ ] Ensure the interfaces are automatically styled using Tailwind CSS.
+- [x] Ensure the interfaces are automatically styled using Tailwind CSS.
 
 ---
 
