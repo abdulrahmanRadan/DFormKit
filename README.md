@@ -1,14 +1,14 @@
 # DFormKit
 
-**DFormKit** is a Python library that helps developers generate **dynamic forms** using **Django ModelForm**, with support for **validation** and **Tailwind CSS** styling.
+**DFormKit** is a Python library designed to help Django developers **dynamically generate forms**, manage views, and streamline template creation based on Django models.
 
 ## Features
 
-- **Automatically generate forms from Django models**.
-- **Automatic validation** based on the model fields.
-- **Tailwind CSS** support for easy form styling.
-- **Generate HTML pages** with forms (optional).
-- **Automatically generate unit tests** for the forms.
+- **Dynamic Form Generation:** Automatically generate forms from Django models.
+- **Template Creation:** Create HTML templates for forms.
+- **View Integration:** Add view functions and URL patterns dynamically.
+- **Validation Support:** Validation is automatically handled based on model constraints.
+- **Customizable Templates:** Supports integrating styling frameworks like Tailwind CSS.
 
 ## Installation
 
@@ -20,49 +20,53 @@ pip install dformkit
 
 ## Usage
 
-### 1. Generate a dynamic form from a Django model
+### 1. Generate a Dynamic Form from a Django Model
 
-To automatically generate a **ModelForm** from the `Product` model, use the following command:
-
-```bash
-python manage.py dformkit --model=Product
-```
-
-### 2. Add validation
-
-To include **validation** for the form based on the model's constraints, use the `--validation` option:
+Generate a **ModelForm** for a model, e.g., `Product`, using:
 
 ```bash
-python manage.py dformkit --model=Product --validation
+python manage.py dformkit --model=Product --app=your_app
 ```
 
-### 3. Add Tailwind CSS styling
+### 2. Create a Template for the Form
 
-To add **Tailwind CSS** styling to the generated form, use the `--tailwind` option:
+To generate an **HTML template** for the form:
 
 ```bash
-python manage.py dformkit --model=Product --tailwind
+python manage.py dformkit --model=Product --app=your_app --page
 ```
 
-### 4. Generate the form with validation and Tailwind CSS
-
-You can combine all options in one command:
+or
 
 ```bash
-python manage.py [dformkit] --model=Product --validation --tailwind
+python manage.py dformkit --model=Product --app=your_app --p
 ```
 
-### 5. Generate HTML pages
+### 3. Add View and URL Pattern
 
-You can also generate **HTML pages** for the forms with the `--html` option:
+Automatically add a **view function** and **URL pattern** for the form:
 
 ```bash
-python manage.py dformkit --model=Product --validation --tailwind --html
+python manage.py dformkit --model=Product --app=your_app --view
 ```
 
-### 6. Testing the library
+or
 
-To test the library, use **pytest** to run unit tests that verify its functionality:
+```bash
+python manage.py dformkit --model=Product --app=your_app --v
+```
+
+### 4. Combine All Options
+
+You can combine form generation, template creation, and view addition in one command:
+
+```bash
+python manage.py dformkit --model=Product --app=your_app --page --view
+```
+
+### 5. Testing the Library
+
+Run unit tests using **pytest**:
 
 ```bash
 pytest
@@ -70,12 +74,12 @@ pytest
 
 ## Contributing
 
-If you'd like to contribute to the improvement of the library, follow these steps:
+We welcome contributions! Follow these steps:
 
 1. Fork the repository.
-2. Create a new branch for the feature or bugfix you're working on.
-3. Add tests (if applicable).
-4. Submit a **Pull Request** with a description of what you've done.
+2. Create a new branch for your feature or fix.
+3. Write tests if applicable.
+4. Submit a **Pull Request** with details about your changes.
 
 ## License
 
