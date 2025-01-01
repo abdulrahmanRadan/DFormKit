@@ -10,10 +10,10 @@ class Command(BaseCommand):
     help = 'Generates a dynamic form and optionally creates a view template or URL pattern.'
 
     def add_arguments(self, parser):
-        parser.add_argument('--model', type=str, help='Model name to generate the form from', required=True)
-        parser.add_argument('--app', type=str, help='App name where the model exists', required=True)
+        parser.add_argument('-model', type=str, help='Model name to generate the form from', required=True)
+        parser.add_argument('-app', type=str, help='App name where the model exists', required=True)
         parser.add_argument('-page', action='store_true', help='Create a view template for the form')
-        parser.add_argument('-p', action='store_true', help='Create a view template for the form')
+        parser.add_argument('--p', action='store_true', help='Create a view template for the form')
         parser.add_argument('-view', action='store_true', help='Add view function to views.py and URL pattern to urls.py')
         parser.add_argument('--v', action='store_true', help='Add view function to views.py and URL pattern to urls.py')
 
