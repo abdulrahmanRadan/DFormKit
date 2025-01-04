@@ -20,7 +20,7 @@ Thumbs.db
 db.sqlite3
 /static/
 media/
-explain.py
+explain.md
 
 # ملفات التثبيت الخاصة بـ pip
 pip-wheel-metadata/

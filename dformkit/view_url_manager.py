@@ -10,7 +10,6 @@ class ViewUrlManager:
         """
         view_function = f"""
 def {model_name.lower()}_view(request):
-    from .forms import {model_name}Form
     if request.method == 'POST':
         form = {model_name}Form(request.POST)
         if form.is_valid():
@@ -22,14 +21,32 @@ def {model_name.lower()}_view(request):
 """
         views_path = os.path.join(app_path, 'views.py')
         try:
-            with open(views_path, 'a+', encoding='utf-8') as file:
+            with open(views_path, 'r+', encoding='utf-8') as file:
+                lines = file.readlines()
                 file.seek(0)
-                content = file.read()
+                import_statement = "from .forms import *\n"
+                import_exists = any(line.strip() == import_statement.strip() for line in lines)
+
+                if not import_exists:
+                    added_import = False
+                    for i, line in enumerate(lines):
+                        if line.startswith("def ") or line.startswith("class "):
+                            lines.insert(i, import_statement)
+                            added_import = True
+                            break
+                    if not added_import:
+                        lines.insert(0, import_statement)
+
+                content = "".join(lines)
                 if f"def {model_name.lower()}_view" not in content:
-                    file.write('\n' + view_function)
+                    lines.append('\n' + view_function)
                     print(f"Added view function for {model_name}  in views.py")
                 else:
                     print(f"view function for {model_name} already exists in views.py")
+                
+                file.seek(0)
+                file.truncate()
+                file.writelines(lines)
                 
         except FileNotFoundError:
             with open(views_path, 'w', encoding='utf-8') as file:

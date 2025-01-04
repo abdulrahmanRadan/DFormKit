@@ -123,7 +123,7 @@ python manage.py startapp dynamic_form_test
 INSTALLED_APPS = [
     ...
     'dynamic_form_test',
-    'django_dynamic_forms',  # أضف المكتبة هنا
+    'dformkit',  # أضف المكتبة هنا
 ]
 ```
 
