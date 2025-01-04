@@ -138,7 +138,7 @@ class FormsFileChecker:
     @staticmethod
     def overwrite_form_class(file_path, model_name, form_code):
         """
-        Overwrite the existing form class for the given model in the file.
+        Overwrite the existing form class for the given model in the file, replacing `class Meta` fields with `__all__`.
 
         Args:
             file_path (str): The path to the forms file.
@@ -150,18 +150,43 @@ class FormsFileChecker:
             with open(file_path, 'r+', encoding='utf-8') as file:
                 lines = file.readlines()
                 file.seek(0)
+                file.truncate()  # Clear the current file content
+
                 inside_form_class = False
-
+                inside_meta_class = False
+                updated_lines = []
                 for line in lines:
-                    if form_class_name in line:
+                    # Check for the start of the target class
+                    if line.strip().startswith(form_class_name):
                         inside_form_class = True
+                        updated_lines.append(line)
                         continue
-                    elif inside_form_class and line.startswith("class "):
-                        inside_form_class = False  # نهاية الكلاس
-                        file.write(line)
-                    elif not inside_form_class:
-                        file.write(line)
 
-                file.write('\n' + form_code + '\n')  # إضافة الكلاس إذا لم يكن موجودًا
+                    # If inside the target class, check for class Meta
+                    if inside_form_class and line.strip().startswith("class Meta"):
+                        inside_meta_class = True
+                        continue
+
+                    # If inside Meta, skip all its lines
+                    if inside_meta_class:
+                        if line.strip().startswith("]") or line.strip() == "":
+                            inside_meta_class = False
+                        continue
+
+                    # Exit the form class when a new class is encountered
+                    if inside_form_class and line.strip().startswith("class ") and not line.strip().startswith(form_class_name):
+                        inside_form_class = False
+
+                    # Keep all other lines
+                    updated_lines.append(line)
+
+                # Add the new Meta definition with `__all__`
+                updated_lines.append(f"    class Meta:\n")
+                updated_lines.append(f"        model = {model_name}\n")
+                updated_lines.append(f"        fields = '__all__'\n")
+
+                # Write the updated content back to the file
+                file.writelines(updated_lines)
+                print(f"Successfully overwritten the form class for '{model_name}', using `fields = '__all__'`.")
         except Exception as e:
-            print(f"An unexpected error occurred: {e}")
+            print(f"An unexpected error occurred while overwriting the form class: {e}")
