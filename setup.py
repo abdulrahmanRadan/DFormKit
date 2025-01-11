@@ -4,7 +4,7 @@ setup(
     name="dformkit",
     version="0.1.0",
     author="Abdulrahman Radan",
-    author_email="aboda123li123@gmail.com",
+    author_email="abdulrahmanraadan@gmail.com",
     description="A Django library for generating dynamic forms, views, and templates.",
     long_description=open('README.md', encoding='utf-8').read(),
     long_description_content_type='text/markdown',
