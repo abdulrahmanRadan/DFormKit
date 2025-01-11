@@ -20,7 +20,7 @@ Thumbs.db
 db.sqlite3
 /static/
 media/
-explain.md
+
 
 # ملفات التثبيت الخاصة بـ pip
 pip-wheel-metadata/
@@ -30,3 +30,5 @@ build/
 
 # ملفات الحزم التي يتم إنشاؤها
 *.egg
+
+explain.md

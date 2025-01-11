@@ -10,18 +10,30 @@ class Command(BaseCommand):
     help = 'Generates a dynamic form and optionally creates a view template or URL pattern.'
 
     def add_arguments(self, parser):
-        parser.add_argument('-model', type=str, help='Model name to generate the form from', required=True)
-        parser.add_argument('-app', type=str, help='App name where the model exists', required=True)
+        # قبول القيم الموضعية
+        parser.add_argument('app', nargs='?', type=str, help='App name where the model exists')
+        parser.add_argument('model', nargs='?', type=str, help='Model name to generate the form from')
+        # قبول القيم مع المفاتيح
+        parser.add_argument('-app', type=str, help='App name where the model exists')
+        parser.add_argument('-model', type=str, help='Model name to generate the form from')
         parser.add_argument('-page', action='store_true', help='Create a view template for the form')
         parser.add_argument('--p', action='store_true', help='Create a view template for the form')
         parser.add_argument('-view', action='store_true', help='Add view function to views.py and URL pattern to urls.py')
         parser.add_argument('--v', action='store_true', help='Add view function to views.py and URL pattern to urls.py')
+        parser.add_argument('--pv', action='store_true', help='Create both a view template and view function with URL pattern')
+        parser.add_argument('--vp', action='store_true', help='Create both a view template and view function with URL pattern')
+
 
     def handle(self, *args, **kwargs):
-        model_name = kwargs['model']
-        app_label = kwargs['app']
-        create_page = kwargs.get('page', False) or kwargs.get('p', False)
-        create_view = kwargs.get('view', False) or kwargs.get('v', False)
+        app_label = kwargs.get('app') or kwargs.get('app_positional')
+        model_name = kwargs.get('model') or kwargs.get('model_positional')
+
+        if not app_label or not model_name:
+            self.stderr.write(self.style.ERROR("Error: You must specify both the app name and model name."))
+            return
+
+        create_page = kwargs.get('page', False) or kwargs.get('p', False) or kwargs.get('pv', False) or kwargs.get('vp', False)
+        create_view = kwargs.get('view', False) or kwargs.get('v', False) or kwargs.get('pv', False) or kwargs.get('vp', False)
 
         try:
             # تحميل الموديل
