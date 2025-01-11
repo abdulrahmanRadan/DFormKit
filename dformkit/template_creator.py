@@ -1,4 +1,8 @@
 import os
+from django.db import models
+from django import forms
+from importlib import import_module
+
 
 class TemplateCreator:
     """
@@ -209,7 +213,6 @@ class TemplateCreator:
         else:
             return f"Template already exists: {template_file}"
 
-    
     def add_form_customizations(self):
       """
       Adds customizations to the form in forms.py only for fields present in the model.
@@ -219,10 +222,6 @@ class TemplateCreator:
           print(f"Error: forms.py not found in {self.app_label}.")
           return
 
-      from django.db import models
-      from django import forms
-      from importlib import import_module
-
       # استيراد الموديل للحصول على الحقول
       try:
           model_module = import_module(f"{self.app_label}.models")
@@ -230,6 +229,36 @@ class TemplateCreator:
       except (ModuleNotFoundError, AttributeError) as e:
           print(f"Error: Could not load model {self.model_name} from {self.app_label}. ({e})")
           return
+
+      # قاموس لتنسيقات Tailwind CSS لكل نوع حقل
+      FIELD_STYLES = {
+          'CharField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'EmailField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'TextField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'DateField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5', 'type': 'date'},
+          'DateTimeField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5', 'type': 'datetime-local'},
+          'TimeField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5', 'type': 'time'},
+          'FileField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'ImageField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'IntegerField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'DecimalField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'FloatField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'BooleanField': {'class': 'w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500'},
+          'URLField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'ChoiceField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'MultipleChoiceField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'ModelChoiceField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'ModelMultipleChoiceField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'SlugField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'UUIDField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'DurationField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'RegexField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'ComboField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'MultiValueField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'SplitDateTimeField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'TypedChoiceField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+          'TypedMultipleChoiceField': {'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+      }
 
       with open(forms_path, 'r+', encoding='utf-8') as file:
           lines = file.readlines()
@@ -255,23 +284,17 @@ class TemplateCreator:
 
                   # تحديث التنسيقات بناءً على أنواع الحقول
                   for field_name, field in model_fields.items():
+                      # تجاهل الحقول التي هي Primary Key
+                      if getattr(field, 'primary_key', False):
+                          continue
+
+                      # تجاهل الحقول created_at و updated_at
+                      if field_name in ['created_at', 'updated_at']:
+                          continue
+
                       field_type = type(field).__name__
-                      if field_type == 'CharField':
-                          updated_lines.append(f"        self.fields['{field_name}'].widget.attrs.update({{'class': 'bg-gray-100 border mx-2 px-2 rounded-md font-medium'}})\n")
-                      elif field_type == 'EmailField':
-                          updated_lines.append(f"        self.fields['{field_name}'].widget.attrs.update({{'class': 'bg-gray-100 border mx-2 px-2 rounded-md'}})\n")
-                      elif field_type == 'TextField':
-                          updated_lines.append(f"        self.fields['{field_name}'].widget.attrs.update({{'class': 'bg-gray-100 border mx-2 px-2 rounded-md'}})\n")
-                      elif field_type == 'DateField':
-                          updated_lines.append(f"        self.fields['{field_name}'].widget.attrs.update({{'class': 'bg-gray-100 border mx-2 px-2 rounded-md', 'type': 'date'}})\n")
-                      elif field_type == 'FileField':
-                          updated_lines.append(f"        self.fields['{field_name}'].widget.attrs.update({{'class': 'bg-gray-100 border mx-2 px-2 rounded-md'}})\n")
-                      elif field_type == 'IntegerField':
-                          updated_lines.append(f"        self.fields['{field_name}'].widget.attrs.update({{'class': 'bg-gray-100 border mx-2 px-2 rounded-md'}})\n")
-                      elif field_type == 'URLField':
-                          updated_lines.append(f"        self.fields['{field_name}'].widget.attrs.update({{'class': 'bg-gray-100 border mx-2 px-2 rounded-md'}})\n")
-                      elif field_type == 'BooleanField':
-                          updated_lines.append(f"        self.fields['{field_name}'].widget.attrs.update({{'class': 'form-checkbox bg-gray-100 border mx-2 px-2 rounded-md'}})\n")
+                      if field_type in FIELD_STYLES:
+                          updated_lines.append(f"        self.fields['{field_name}'].widget.attrs.update({FIELD_STYLES[field_type]})\n")
 
               updated_lines.append(line)
 
