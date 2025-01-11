@@ -110,7 +110,7 @@ python manage.py startapp dynamic_form_test
    **إذا كنت تقوم بتطوير المكتبة محليًا (من المجلد المحلي)**:
 
    ```bash
-   pip install -e F:\projects2025\ddformkit
+   pip install -e F:\projects2025\dformkit
    ```
 
    ستتمكن من الآن من استيراد مكتبتك واستخدامها داخل تطبيق Django الخاص بك.

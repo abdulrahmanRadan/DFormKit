@@ -1,23 +1,49 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="dformkit",  # اسم المكتبة
-    version="0.1.0",  
-    packages=find_packages(),  # العثور على جميع الحزم (داخل المكتبة)
-    include_package_data=True,
-    install_requires=[
-        'Django>=3.0',  # الحزم الأساسية المطلوبة
-        'requests',      # إذا كنت بحاجة إلى مكتبة requests أو أي حزمة أخرى
-    ],
-    classifiers=[
-        'Programming Language :: Python :: 3',
-        'Framework :: Django',
-        'License :: OSI Approved :: MIT License',
-    ],
-    author="abdulrahmanRadan",
+    name="dformkit",
+    version="0.1.0",
+    author="Abdulrahman Radan",
     author_email="aboda123li123@gmail.com",
-    description="this is django dynamic forms ",
-    long_description=open('README.md').read(),  
+    description="A Django library for generating dynamic forms, views, and templates.",
+    long_description=open('README.md', encoding='utf-8').read(),
     long_description_content_type='text/markdown',
-    # url="رابط المكتبة (إذا كنت ستنشرها)",
+    keywords=[
+        "django",
+        "dynamic forms",
+        "django forms",
+        "form generation",
+        "web development",
+        "dynamic templates",
+    ],
+    license="MIT",
+    classifiers=[
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Framework :: Django",
+        "Topic :: Software Development :: Libraries",
+    ],
+    include_package_data=True,
+    python_requires=">=3.6",
+    install_requires=[
+        "Django>=3.0",
+    ],
+    entry_points={
+        "console_scripts": [
+            "dformkit=dformkit.cli:main",
+        ],
+    },
+    project_urls={
+        "Author": "https://github.com/abdulrahmanRadan",
+        "Homepage": "https://github.com/abdulrahmanRadan/dformkit",
+        "Bug Tracker": "https://github.com/abdulrahmanRadan/dformkit/issues",
+        "Source Code": "https://github.com/abdulrahmanRadan/dformkit",
+        "Documentation": "https://github.com/abdulrahmanRadan/dformkit#readme",
+    },
+    platforms=["Linux", "Windows", "MacOS"],
+    packages=find_packages(),
 )
