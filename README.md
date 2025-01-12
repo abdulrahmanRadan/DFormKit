@@ -38,9 +38,9 @@ While other tools make you wade through a swamp of settings and configurations, 
    ]
    ```
 
-   _(Insert an image showing the addition of `'dformkit'` to `INSTALLED_APPS` in `settings.py`.)_
+   - image showing the addition of `'dformkit'` to `INSTALLED_APPS` in `settings.py`.
 
----
+## ![settings](./images/installed_app.png)
 
 ## 📈 Upgrade
 
@@ -101,8 +101,6 @@ python manage.py dformkit myapp Person
 - **What it does:** Generates a dynamic form for the `Person` model in the `myapp` application.
 - **Output:** The form is saved in `forms.py`.
 
-_(Insert an image showing the terminal command and the generated form in `forms.py`.)_
-
 ---
 
 ### 2. Generate a Form and Template
@@ -120,9 +118,9 @@ python manage.py dformkit myapp Person --p
 - **What it does:** Generates the form and an HTML template for it.
 - **Output:** The form is saved in `forms.py`, and the template is saved in the `templates` folder.
 
-_(Insert an image showing the terminal command and the generated HTML template.)_
+- This is the code generated with this command in templates/[formname]\_form.html
 
----
+## ![htmlfile](./images/htmlform.png)
 
 ### 3. Generate a Form, View, and URL Pattern
 
@@ -139,7 +137,8 @@ python manage.py dformkit myapp Person --v
 - **What it does:** Generates the form, adds a view function to `views.py`, and adds a URL pattern to `urls.py`.
 - **Output:** The form, view, and URL pattern are created.
 
-_(Insert an image showing the terminal command and the modifications in `views.py` and `urls.py`.)_
+![urlviewfile](./images/urls.py.png)
+![urlviewfile](./images/views-py.png)
 
 ---
 
@@ -158,9 +157,9 @@ python manage.py dformkit myapp Person --vp
 - **What it does:** Combines all the above steps into one command.
 - **Output:** The form, template, view, and URL pattern are generated.
 
-_(Insert an image showing the combined terminal command and the resulting changes in all relevant files.)_
+- this is the new form code in forms.py when use this command
 
----
+## ![image](./images/forms.py.png)
 
 ## 🧰 Additional Features
 
@@ -202,8 +201,6 @@ You can run unit tests using **pytest**:
 pytest
 ```
 
-_(Insert an image showing the tests running successfully in the terminal.)_
-
 ---
 
 ## Contributing
@@ -214,8 +211,6 @@ We welcome contributions! Follow these steps:
 2. Create a new branch for your feature or fix.
 3. Write tests if applicable.
 4. Submit a **Pull Request** with details about your changes.
-
-_(Insert an image showing the GitHub fork and pull request process.)_
 
 ---
 
