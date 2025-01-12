@@ -40,7 +40,7 @@ While other tools make you wade through a swamp of settings and configurations, 
 
    - image showing the addition of `'dformkit'` to `INSTALLED_APPS` in `settings.py`.
 
-## ![settings](./images/installed_app.png)
+## ![settings](https://raw.githubusercontent.com/abdulrahmanRadan/DFormKit/main/images/installed_app.png)
 
 ## 📈 Upgrade
 
@@ -120,7 +120,9 @@ python manage.py dformkit myapp Person --p
 
 - This is the code generated with this command in templates/[formname]\_form.html
 
-## ![htmlfile](./images/htmlform.png)
+## ![htmlfile](https://raw.githubusercontent.com/abdulrahmanRadan/DFormKit/main/images/htmlform.png)
+
+---
 
 ### 3. Generate a Form, View, and URL Pattern
 
@@ -137,8 +139,8 @@ python manage.py dformkit myapp Person --v
 - **What it does:** Generates the form, adds a view function to `views.py`, and adds a URL pattern to `urls.py`.
 - **Output:** The form, view, and URL pattern are created.
 
-![urlviewfile](./images/urls.py.png)
-![urlviewfile](./images/views-py.png)
+![urlviewfile](https://raw.githubusercontent.com/abdulrahmanRadan/DFormKit/main/images/urls.py.png)
+![urlviewfile](https://raw.githubusercontent.com/abdulrahmanRadan/DFormKit/main/images/views-py.png)
 
 ---
 
@@ -159,7 +161,7 @@ python manage.py dformkit myapp Person --vp
 
 - this is the new form code in forms.py when use this command
 
-## ![image](./images/forms.py.png)
+## ![image](https://raw.githubusercontent.com/abdulrahmanRadan/DFormKit/main/images/forms.py.png)
 
 ## 🧰 Additional Features
 
