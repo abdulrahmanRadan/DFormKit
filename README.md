@@ -1,5 +1,23 @@
 # DFormKit
 
+### Enjoying my project? Please show your appreciation by starring it on GitHub! ⭐
+
+<a href="https://github.com/abdulrahmanRadan/DFormKit">
+  <img src="https://img.shields.io/pypi/v/dformkit.svg?style=flat&label=Version" alt="Version">
+</a>
+<a href="https://pepy.tech/projects/dformkit">
+  <img src="https://static.pepy.tech/badge/dformkit" alt="Downloads">
+</a>
+<a href="https://pepy.tech/projects/dformkit">
+  <img src="https://static.pepy.tech/badge/dformkit/month" alt="Downloads per Month">
+</a>
+<a href="https://pepy.tech/projects/dformkit">
+  <img src="https://static.pepy.tech/badge/dformkit/week" alt="Downloads per Week">
+</a>
+
+<br />
+<br />
+
 **DFormKit** is a Python library designed to help Django developers **dynamically generate forms**, manage views, and streamline template creation based on Django models.
 
 ---
