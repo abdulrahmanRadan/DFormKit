@@ -1,0 +1,19 @@
+<!-- dformkit/multi_step.html -->
+{% load static %}
+
+<form method="post">
+  {% csrf_token %}
+  <h3>{{ step_title }}</h3>
+  {{ form.as_p }}
+
+  <div class="steps-nav">
+    {% if current_step > 1 %}
+    <a href="{% url 'multistep' step=current_step|add:'-1' %}" class="btn-prev"
+      >السابق</a
+    >
+    {% endif %}
+    <button type="submit" class="btn-next">
+      {% if current_step == total_steps %}إنهاء{% else %}التالي{% endif %}
+    </button>
+  </div>
+</form>
