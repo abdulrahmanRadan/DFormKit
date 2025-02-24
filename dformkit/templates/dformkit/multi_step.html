@@ -9,12 +9,79 @@
     <!-- رابط Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- رابط ملف التنسيقات الخاصة بالمكتبة -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'dformkit/static/dformkit/styles.css' %}"
-    />
+    <style>
+      input,
+      textarea,
+      select {
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        width: 100%;
+      }
+      input {
+        height: 2.5rem;
+        padding: 0.5rem;
+        text-align: center;
+      }
+
+      .divd {
+        border: 2px solid #d1d5db;
+        border-radius: 0.5rem;
+        padding: 0.5rem;
+        width: 100%;
+      }
+
+      label {
+        color: #374151;
+        font-weight: bold;
+      }
+
+      form {
+        background-color: #ffffff;
+        padding: 1.5rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        border-radius: 0.5rem;
+      }
+
+      .steps-nav {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+      }
+
+      .btn-next {
+        background-color: #3b82f6;
+        color: #fff;
+        font-weight: bold;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+      }
+
+      .btn-next:hover {
+        background-color: #1d4ed8;
+      }
+
+      .btn-prev {
+        background-color: #6b7280;
+        color: #fff;
+        font-weight: bold;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+      }
+
+      .btn-prev:hover {
+        background-color: #4b5563;
+      }
+
+      .alert-error {
+        background-color: #fee2e2;
+        border: 1px solid #f87171;
+        color: #b91c1c;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+      }
+    </style>
   </head>
   <body class="bg-gray-100 p-6">
     <form
@@ -24,7 +91,6 @@
       {% csrf_token %}
       <h3 class="text-2xl font-bold mb-4 text-center">{{ step_title }}</h3>
 
-      <!-- عرض الأخطاء العامة إن وجدت -->
       {% if form.non_field_errors %}
       <div
         class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4"
@@ -33,10 +99,7 @@
         <p>{{ error }}</p>
         {% endfor %}
       </div>
-      {% endif %}
-
-      <!-- عرض الحقول -->
-      {% for field in form.visible_fields %}
+      {% endif %} {% for field in form.visible_fields %}
       <div class="mb-4">
         <label
           class="block text-gray-700 font-bold mb-2"
@@ -44,7 +107,7 @@
         >
           {{ field.label }}
         </label>
-        <div class="bg-gray-100">{{ field }} {% if field.help_text %}</div>
+        {{ field }} {% if field.help_text %}
         <p class="text-gray-500 text-sm">{{ field.help_text }}</p>
         {% endif %} {% for error in field.errors %}
         <p class="text-red-500 text-sm">{{ error }}</p>
@@ -57,11 +120,11 @@
         <a
           href="{% url 'multistep' step=current_step|add:'-1' %}"
           class="btn-prev"
-          >السابق</a
+          >before</a
         >
         {% endif %}
         <button type="submit" class="btn-next">
-          {% if current_step == total_steps %}إنهاء{% else %}التالي{% endif %}
+          {% if current_step == total_steps %}Ok{% else %}next{% endif %}
         </button>
       </div>
     </form>
